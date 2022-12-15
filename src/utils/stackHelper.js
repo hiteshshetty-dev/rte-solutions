@@ -18,3 +18,27 @@ module.exports.getAllLocaleInStack = (data) => {
         return res.data && res.data.locales
     })
 }
+/**
+ * 
+ * @returns {{host:string, apiKey: string, managementToken: string}}
+ */
+module.exports.getConfig = () => {
+    var config = {
+        apiKey: process.env.CONTENTSTACK_API_KEY,
+        managementToken: process.env.CONTENTSTACK_MANAGEMENT_TOKEN,
+        host: process.env.CONTENTSTACK_API_HOST
+    };
+
+    const requireKey = {
+        apiKey: "CONTENTSTACK_API_KEY",
+        managementToken: "CONTENTSTACK_MANAGEMENT_TOKEN",
+        host: "CONTENTSTACK_API_HOST"
+    }
+
+    for (const key in requireKey){
+        if(!config[key]){
+            throw new Error(`Missing config: ${requireKey[key]} is required`)
+        }
+    }
+    return config
+}
