@@ -27,6 +27,25 @@ module.exports.getAllCTInStack = (data, limit, skip) => {
 /**
  * 
  * @param {{host:string, apiKey: string, managementToken: string}} data
+ * @param {string} ct_uid
+ * @returns {Promise<{uid: string, schema: Array<object>}>}
+ */
+module.exports.getSingleCT = (data, ct_uid) => {
+    return axios.get(`${data.host}/v3/content_types/${ct_uid}`, {
+        headers:{
+            api_key: data.apiKey,
+            authorization: data.managementToken
+        },
+        params: {
+            include_global_field_schema: true,
+        }
+    }).then((res) => {
+        return res.data && res.data.content_type
+    })
+}
+/**
+ * 
+ * @param {{host:string, apiKey: string, managementToken: string}} data
  * @returns {Promise<number>}
  */
 module.exports.getCTCount = (data) => {

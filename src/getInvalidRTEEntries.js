@@ -7,7 +7,7 @@ const fieldWithInvalidRTEPath = path.join(__dirname, '../results', `getInvalidRT
 require('dotenv').config();
 const { delay } = require('./utils/delay');
 const { getCTCount, getAllCTInStack } = require('./utils/contentTypeHelper');
-const { getEntryCount, getBatchEntries, getEntryWithVersion } = require('./utils/entryHelper');
+const { getEntryCount, getBatchEntries, getSingleEntry } = require('./utils/entryHelper');
 const { getAllLocaleInStack } = require('./utils/stackHelper');
 const { getAllRTEPathForCT, getFieldValueFromPath } = require('./utils/rteHelper');
 
@@ -54,7 +54,7 @@ var getInvalidRTEEntries = async function () {
                     for (const latestEntry of batchedEntries) {
                         console.info(`          For ${latestEntry.uid} entry, `)
                         await delay(delayTime)
-                        const revisionEntry = await getEntryWithVersion(config, CT.uid, latestEntry.uid, locale.code, latestEntry._version)
+                        const revisionEntry = await getSingleEntry(config, CT.uid, latestEntry.uid, locale.code, latestEntry._version)
 
                         for (const rtePath in allRTEPaths) {
                             let latestRTEDocument = []
